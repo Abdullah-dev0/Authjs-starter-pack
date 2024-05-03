@@ -1,4 +1,4 @@
-import Signin from "@/components/Sign-in";
+import { Signin } from "@/components/Sign-in";
 
 const login = () => {
    return (

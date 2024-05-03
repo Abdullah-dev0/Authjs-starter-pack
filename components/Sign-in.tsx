@@ -1,119 +1,86 @@
 "use client";
 
-import { useState } from "react";
+import { login } from "@/actions/login.action";
+import { Button } from "@/components/ui/button";
+import {
+   Form,
+   FormControl,
+   FormField,
+   FormItem,
+   FormLabel,
+   FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { loginSchema } from "@/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+export function Signin() {
+   const [isPending, startTransition] = useTransition();
 
-type s = "sign-in" | "sign-up";
-type v = {
-   email: string;
-   password: string;
-   name: string;
-};
-
-export default function Signin() {
-   const [value, setValue] = useState<v>({
-      email: "",
-      password: "",
-      name: "",
+   const form = useForm<z.infer<typeof loginSchema>>({
+      resolver: zodResolver(loginSchema),
+      defaultValues: {
+         email: "",
+         password: "",
+      },
    });
 
-   const [state, setState] = useState<s>("sign-in");
-
-   const changeHandler = (e: any) => {
-      setValue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+   const onSubmit = (data: z.infer<typeof loginSchema>) => {
+      startTransition(async () => {
+         const response = await login(data);
+      });
    };
-
    return (
-      <div className="flex min-h-screen flex-1 flex-col justify-center items-center px-6 py-12 lg:px-8">
-         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6">
-               {state === "sign-up" && (
-                  <div>
-                     <label
-                        htmlFor="name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                     >
-                        UserName
-                     </label>
-                     <div className="mt-2">
-                        <input
-                           id="name"
-                           name="name"
-                           type="text"
-                           onChange={changeHandler}
-                           value={value.name}
-                           autoComplete="name"
-                           required
-                           className="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                     </div>
-                  </div>
-               )}
-               <div>
-                  <label
-                     htmlFor="email"
-                     className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                     Email address
-                  </label>
-                  <div className="mt-2">
-                     <input
-                        id="email"
-                        value={value.email}
-                        name="email"
-                        type="email"
-                        onChange={changeHandler}
-                        autoComplete="email"
-                        required
-                        className="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                     />
-                  </div>
-               </div>
+      <div className="grid place-items-center bg-white p-6 min-h-screen max-w-screen-sm mx-auto">
+         <Form {...form}>
+            <form
+               onSubmit={form.handleSubmit(onSubmit)}
+               className="space-y-4 w-full"
+            >
+               <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>email</FormLabel>
+                        <FormControl>
+                           <Input
+                              disabled={isPending}
+                              placeholder="email@gmail.com"
+                              type="email"
+                              {...field}
+                           />
+                        </FormControl>
 
-               <div>
-                  <div className="flex items-center justify-between">
-                     <label
-                        htmlFor="password"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                     >
-                        Password
-                     </label>
-                  </div>
-                  <div className="mt-2">
-                     <input
-                        id="password"
-                        name="password"
-                        onChange={changeHandler}
-                        value={value.password}
-                        type="password"
-                        autoComplete="current-password"
-                        required
-                        className="block w-full rounded-md px-2 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                     />
-                  </div>
-               </div>
-
-               <div>
-                  <button
-                     type="submit"
-                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                     {state === "sign-in" ? "Sign in" : "Sign up"}
-                  </button>
-               </div>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                     <FormItem>
+                        <FormLabel>password</FormLabel>
+                        <FormControl>
+                           <Input
+                              disabled={isPending}
+                              placeholder="*******"
+                              type="password"
+                              {...field}
+                           />
+                        </FormControl>
+                        <FormMessage />
+                     </FormItem>
+                  )}
+               />
+               <Button type="submit" disabled={isPending}>
+                  Submit
+               </Button>
             </form>
-            <p className="mt-10 text-center text-sm  text-gray-500">
-               Sign up for a new account?
-               <button
-                  type="submit"
-                  onClick={() => {
-                     setState(state === "sign-in" ? "sign-up" : "sign-in");
-                  }}
-                  className="font-semibold  text-indigo-600 p-1 hover:text-indigo-500"
-               >
-                  {state === "sign-in" ? "Sign up" : "Sign in"}
-               </button>
-            </p>
-         </div>
+         </Form>
       </div>
    );
 }
