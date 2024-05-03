@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "install": "^0.13.0",
+    "mongoose": "^8.3.3",
     "next": "14.2.2",
-    "next-auth": "^4.24.7",
+    "next-auth": "^5.0.0-beta.17",
+    "npm": "^10.7.0",
     "react": "^18",
     "react-dom": "^18"
   },
