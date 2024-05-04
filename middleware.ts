@@ -1,9 +1,9 @@
 import { auth } from "./auth";
 import {
-  authPrefix,
-  DEFAULT_LOGIN_REDIRECT,
-  privateRouts,
-  publicRouts,
+   authPrefix,
+   DEFAULT_LOGIN_REDIRECT,
+   privateRouts,
+   publicRouts,
 } from "./routes";
 
 export default auth((req) => {
@@ -29,7 +29,7 @@ export default auth((req) => {
       return Response.redirect(new URL("/auth/login", nextUrl));
    }
 
-   return ;
+   return;
 });
 
 export const config = {

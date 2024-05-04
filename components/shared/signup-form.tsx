@@ -17,6 +17,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Authproviders from "./auth_providers";
 export function Signup() {
    const [isPending, startTransition] = useTransition();
    const [error, setError] = useState<string | undefined>("");
@@ -123,6 +124,7 @@ export function Signup() {
                   Submit
                </Button>
             </form>
+            <Authproviders />
          </Form>
          <div className="text-center">
             <Link href="/auth/login">
