@@ -1,5 +1,4 @@
 import { model, models, Schema } from "mongoose";
-
 export const userSchema = new Schema(
    {
       username: {
@@ -22,8 +21,6 @@ export const userSchema = new Schema(
    }
 );
 
-export const becyrpt = require("bcrypt");
-
-const User = models.User || model("User", userSchema);
+const User = models?.User || model("User", userSchema);
 
 export default User;
