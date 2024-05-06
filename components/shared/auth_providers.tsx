@@ -22,7 +22,7 @@ const Authproviders = () => {
    return (
       <div className="flex gap-5 flex-wrap w-full">
          <Button
-            className="flex-1"
+            className="flex-1 border-none"
             disabled={isPending}
             variant={"outline"}
             onClick={() => handleClick("google")}
@@ -31,7 +31,7 @@ const Authproviders = () => {
          </Button>
          <Button
             disabled={isPending}
-            className="flex-1"
+            className="flex-1 border-none"
             variant={"outline"}
             onClick={() => handleClick("github")}
          >
