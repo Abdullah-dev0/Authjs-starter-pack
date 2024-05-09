@@ -1,9 +1,8 @@
-import User from "@/lib/database/models/user.model";
+import prisma from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
-import { connectToDatabase } from "./lib/database";
 import { loginSchema } from "./schema";
 
 export default {
@@ -21,10 +20,13 @@ export default {
             const validateFields = loginSchema.safeParse(credentials);
 
             if (validateFields.success) {
-               await connectToDatabase();
                const { email, password } = validateFields.data;
 
-               const user = await User.findOne({ email });
+               const user = await prisma.user.findFirst({
+                  where: {
+                     email,
+                  },
+               });
 
                if (!user || !user.password) return null;
 
@@ -35,7 +37,9 @@ export default {
 
                if (isPasswordValid) return user;
             }
+
             return null;
+      
          },
       }),
    ],

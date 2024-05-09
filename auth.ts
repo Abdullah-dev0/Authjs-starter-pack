@@ -1,10 +1,10 @@
-import { MongoDBAdapter } from "@auth/mongodb-adapter";
+import prisma from "@/lib/db";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
-import clientPromise from "./lib/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-   adapter: MongoDBAdapter(clientPromise),
+   adapter: PrismaAdapter(prisma),
    ...authConfig,
    session: {
       strategy: "jwt",

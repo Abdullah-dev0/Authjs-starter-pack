@@ -1,7 +1,5 @@
 "use server";
-
-import { connectToDatabase } from "@/lib/database";
-import User from "@/lib/database/models/user.model";
+import prisma from "@/lib/db";
 import { signupSchema } from "@/schema";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
@@ -15,10 +13,10 @@ export const signup = async (data: z.infer<typeof signupSchema>) => {
    const { email, username, password } = validatedData.data;
 
    try {
-      await connectToDatabase();
-
-      const existingUser = await User.findOne({
-         $or: [{ email: data.email }, { username: data.username }],
+      const existingUser = await prisma.user.findFirst({
+         where: {
+            email,
+         },
       });
 
       if (existingUser) {
@@ -27,10 +25,12 @@ export const signup = async (data: z.infer<typeof signupSchema>) => {
 
       const hashedPassword = bcrypt.hashSync(password, 10);
 
-      const newUser = await User.create({
-         email,
-         username,
-         password: hashedPassword,
+      const newUser = await prisma.user.create({
+         data: {
+            email,
+            username,
+            password: hashedPassword,
+         },
       });
 
       if (!newUser) {
