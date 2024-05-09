@@ -1,4 +1,4 @@
-import prisma from "@/lib/db";
+import prisma from "@/lib/prismaClient";
 import bcrypt from "bcryptjs";
 import { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
@@ -39,7 +39,6 @@ export default {
             }
 
             return null;
-      
          },
       }),
    ],
