@@ -3,6 +3,7 @@ import prisma from "@/lib/prismaClient";
 import { signupSchema } from "@/schema";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { generateVerificationToken } from "./tokens";
 export const signup = async (data: z.infer<typeof signupSchema>) => {
    const validatedData = signupSchema.safeParse(data);
 
@@ -36,9 +37,11 @@ export const signup = async (data: z.infer<typeof signupSchema>) => {
       if (!newUser) {
          return { error: "User not created" };
       }
+
+      await generateVerificationToken(email);
+
+      return { success: "verification token sent please verify " };
    } catch (error) {
       console.log(error);
    }
-
-   return { success: "user created sucessfuly" };
 };

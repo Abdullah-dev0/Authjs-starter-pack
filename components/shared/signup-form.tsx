@@ -17,6 +17,8 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import FormError from "./FormError";
+import FormSuccess from "./FromSuccess";
 import Authproviders from "./auth_providers";
 export function Signup() {
    const [isPending, startTransition] = useTransition();
@@ -113,12 +115,8 @@ export function Signup() {
                   )}
                />
 
-               {error && (
-                  <div className="text-red-500 text-center">{error}</div>
-               )}
-               {success && (
-                  <div className="text-green-500 text-center">{success}</div>
-               )}
+               <FormError message={error} />
+               <FormSuccess message={success} />
 
                <Button type="submit" className="w-full" disabled={isPending}>
                   Submit
