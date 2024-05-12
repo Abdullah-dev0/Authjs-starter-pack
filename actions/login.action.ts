@@ -2,6 +2,7 @@
 
 import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
+import { sentVerificationEmail } from "@/lib/email";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { loginSchema } from "@/schema";
 import { AuthError } from "next-auth";
@@ -28,9 +29,11 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
    }
 
    if (!user.emailVerified) {
-      await generateVerificationToken(email);
+      const generateToken = await generateVerificationToken(email);
 
-      return { success: "verification token sent" };
+      await sentVerificationEmail(generateToken.email, generateToken.token);
+
+      return { success: "verification email sent" };
    }
 
    // we use the signIn function from next-auth to sign in the user with the credentials provider and redirect the user to the DEFAULT_LOGIN_REDIRECT

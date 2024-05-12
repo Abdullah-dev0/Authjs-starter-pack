@@ -3,15 +3,15 @@
 import { verifyToken } from "@/actions/verifyToken";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import FormError from "./FormError";
+import Formsuccess from "./FromSuccess";
 
 const VerifyTokenForm = () => {
    const [error, setError] = useState<string | undefined>("");
    const [success, setSuccess] = useState<string | undefined>("");
    const token = useSearchParams().get("token");
-
 
    const onSubmit = useCallback(async () => {
       if (!token) {
@@ -40,7 +40,7 @@ const VerifyTokenForm = () => {
             {!error && !success && <BeatLoader color="#fff" size={10} />}
 
             <FormError message={error} />
-            <FormError message={success} />
+            <Formsuccess message={success} />
          </div>
          <div className="text-center mt-6">
             <Link href="/auth/login">Back to Login</Link>
