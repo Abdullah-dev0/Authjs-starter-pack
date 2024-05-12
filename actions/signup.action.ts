@@ -1,4 +1,5 @@
 "use server";
+import { sentVerificationEmail } from "@/lib/email";
 import prisma from "@/lib/prismaClient";
 import { signupSchema } from "@/schema";
 import bcrypt from "bcryptjs";
@@ -38,9 +39,14 @@ export const signup = async (data: z.infer<typeof signupSchema>) => {
          return { error: "User not created" };
       }
 
-      await generateVerificationToken(email);
+      const verificationToken = await generateVerificationToken(email);
 
-      return { success: "verification token sent please verify " };
+      await sentVerificationEmail(
+         verificationToken.email,
+         verificationToken.token
+      );
+
+      return { success: "verification email sent please verify" };
    } catch (error) {
       console.log(error);
    }

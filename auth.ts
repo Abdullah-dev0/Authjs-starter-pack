@@ -4,7 +4,6 @@ import NextAuth from "next-auth";
 import authConfig from "./auth.config";
 import { getUserById } from "./data/user";
 
-// add a login for if the user has a same email but different provider
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
    adapter: PrismaAdapter(prisma),
@@ -47,6 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
          return token;
       },
       async session({ session, token, user }) {
+         // Add property to session, like an access_token from a provider. you can as many as you want
          if (token.sub && session.user) {
             session.user.id = token.sub;
          }
