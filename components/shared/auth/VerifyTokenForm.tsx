@@ -1,6 +1,6 @@
 "use client";
 
-import { verifyToken } from "@/actions/verifyToken";
+import { verifyToken } from "@/actions/auth/verifyToken";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -35,7 +35,7 @@ const VerifyTokenForm = () => {
       <div className="bg-slate-300  p-5 rounded-md">
          <div className="flex flex-col justify-center gap-5 items-center">
             <p>Auth 🔐</p>
-            <h1>Confriming Your Verification</h1>
+            <h1>comfriming your email</h1>
 
             {!error && !success && <BeatLoader color="#fff" size={10} />}
 

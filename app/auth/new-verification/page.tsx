@@ -1,4 +1,4 @@
-import VerifyTokenForm from "@/components/shared/VerifyTokenForm";
+import VerifyTokenForm from "@/components/shared/auth/VerifyTokenForm";
 
 const VerifyToken = () => {
    return <VerifyTokenForm />;

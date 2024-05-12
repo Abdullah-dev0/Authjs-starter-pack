@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/actions/login.action";
+import { reset } from "@/actions/auth/reset";
 import { Button } from "@/components/ui/button";
 import {
    Form,
@@ -11,39 +11,31 @@ import {
    FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { loginSchema } from "@/schema";
+import { resetPasswordSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormError from "./FormError";
 import FormSuccess from "./FromSuccess";
-import Authproviders from "./auth_providers";
-export function Signin() {
-   const searchParams = useSearchParams();
-   const urlError =
-      searchParams.get("error") === "OAuthAccountNotLinked"
-         ? "Please Login with different email !"
-         : "";
-
+export function ResetPasswordCard() {
    const [isPending, startTransition] = useTransition();
    const [error, setError] = useState<string | undefined>("");
    const [success, setSuccess] = useState<string | undefined>("");
 
-   const form = useForm<z.infer<typeof loginSchema>>({
-      resolver: zodResolver(loginSchema),
+   const form = useForm<z.infer<typeof resetPasswordSchema>>({
+      resolver: zodResolver(resetPasswordSchema),
       defaultValues: {
          email: "",
-         password: "",
       },
    });
 
-   const onSubmit = (data: z.infer<typeof loginSchema>) => {
+   const onSubmit = (data: z.infer<typeof resetPasswordSchema>) => {
       setError("");
+      setSuccess("");
+      console.log(data);
       startTransition(() => {
-         login(data).then((res) => {
+         reset(data).then((res) => {
             setError(res?.error);
             setSuccess(res?.success);
          });
@@ -75,37 +67,14 @@ export function Signin() {
                      </FormItem>
                   )}
                />
-               <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>password</FormLabel>
-                        <FormControl>
-                           <Input
-                              disabled={isPending}
-                              placeholder="*******"
-                              type="password"
-                              {...field}
-                           />
-                        </FormControl>
-                     </FormItem>
-                  )}
-               />
-               <FormError message={error || urlError} />
+               <FormError message={error} />
                <FormSuccess message={success} />
 
                <Button type="submit" className="w-full" disabled={isPending}>
-                  Submit
+                  sent Verification email
                </Button>
             </form>
-            <Link href="/auth/register">
-               <p className="text-blue-500 underline">
-                  Dont have an account? Sign up
-               </p>
-            </Link>
          </Form>
-         <Authproviders />
       </>
    );
 }

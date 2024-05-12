@@ -1,13 +1,14 @@
 "use server";
 
 import { signIn } from "@/auth";
-import { getUserByEmail } from "@/data/user";
+import { getUserByEmail } from "@/data/auth/user";
 import { sentVerificationEmail } from "@/lib/email";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { loginSchema } from "@/schema";
+import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { z } from "zod";
-import { generateVerificationToken } from "./tokens";
+import { generateVerificationToken } from "../auth/tokens";
 
 export const login = async (values: z.infer<typeof loginSchema>) => {
    const validatedvalues = loginSchema.safeParse(values);
@@ -25,7 +26,13 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
    const user = await getUserByEmail(email);
 
    if (!user || !user.password || !user.email) {
-      return { error: "email Does not exist" };
+      return { error: "User not found" };
+   }
+
+   const userPassword = await bcrypt.compare(password, user.password);
+
+   if (!userPassword) {
+      return { error: "invalid credentials" };
    }
 
    if (!user.emailVerified) {
@@ -33,7 +40,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
 
       await sentVerificationEmail(generateToken.email, generateToken.token);
 
-      return { success: "verification email sent" };
+      return { success: "verification email sent !" };
    }
 
    // we use the signIn function from next-auth to sign in the user with the credentials provider and redirect the user to the DEFAULT_LOGIN_REDIRECT

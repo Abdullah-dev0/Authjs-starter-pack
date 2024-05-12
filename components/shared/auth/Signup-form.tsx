@@ -1,6 +1,6 @@
 "use client";
 
-import { signup } from "@/actions/signup.action";
+import { signup } from "@/actions/auth/signup.action";
 import { Button } from "@/components/ui/button";
 import {
    Form,
@@ -17,9 +17,9 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Authproviders from "./Auth_providers";
 import FormError from "./FormError";
 import FormSuccess from "./FromSuccess";
-import Authproviders from "./auth_providers";
 export function Signup() {
    const [isPending, startTransition] = useTransition();
    const [error, setError] = useState<string | undefined>("");

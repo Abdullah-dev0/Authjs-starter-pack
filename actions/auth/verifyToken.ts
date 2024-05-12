@@ -1,7 +1,7 @@
 "use server";
 
-import { getVerificationTokenByToken } from "@/data/tokens";
-import { getUserByEmail } from "@/data/user";
+import { getVerificationTokenByToken } from "@/data/auth/tokens";
+import { getUserByEmail } from "@/data/auth/user";
 import prisma from "@/lib/prismaClient";
 
 export const verifyToken = async (token: string) => {
@@ -23,7 +23,7 @@ export const verifyToken = async (token: string) => {
       if (!user) {
          return { error: "email not found" };
       }
-      
+
       await prisma.user.update({
          where: {
             email: existingToken.email,

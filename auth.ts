@@ -2,8 +2,7 @@ import prisma from "@/lib/prismaClient";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import authConfig from "./auth.config";
-import { getUserById } from "./data/user";
-
+import { getUserById } from "./data/auth/user";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
    adapter: PrismaAdapter(prisma),
@@ -37,8 +36,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
          const existingUser = await getUserById(user.id);
 
          if (!existingUser.emailVerified) return false;
-
-         // Todo :  Add 2fa verify
 
          return true;
       },

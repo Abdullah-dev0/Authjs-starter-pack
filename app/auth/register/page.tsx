@@ -1,4 +1,4 @@
-import { Signup } from "@/components/shared/signup-form";
+import { Signup } from "@/components/shared/auth/Signup-form";
 
 const Register = () => {
    return (

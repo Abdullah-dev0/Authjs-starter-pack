@@ -2,11 +2,16 @@
 
 //public routes that are accessible to all users
 
-export const publicRouts = ["/", "/auth/new-verification"];
+export const publicRouts = ["/", "/auth/new-verification","/auth/reset-password"];
 
 //private routes that are accessible only to authenticated users or are disolayed if user is not authenticated
 
-export const privateRouts = ["/auth/login", "/auth/register", "/auth/error"];
+export const privateRouts = [
+   "/auth/login",
+   "/auth/register",
+   "/auth/error",
+   "/auth/reset",
+];
 
 // this is the prefix for all the routes that are related to the authentication and this is alwayds public routes
 

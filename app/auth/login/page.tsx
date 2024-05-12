@@ -1,4 +1,4 @@
-import { Signin } from "@/components/shared/signin-form";
+import { Signin } from "@/components/shared/auth/Signin-form";
 
 const login = () => {
    return (
