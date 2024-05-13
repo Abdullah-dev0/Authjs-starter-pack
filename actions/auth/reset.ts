@@ -1,6 +1,6 @@
 "use server";
 
-import { getUserByEmail } from "@/data/auth/user";
+import { getAccountProviderById, getUserByEmail } from "@/data/auth/user";
 import { sentResetPasswordEmail } from "@/lib/email";
 import { resetPasswordSchema } from "@/schema";
 import { z } from "zod";
@@ -19,6 +19,12 @@ export const reset = async (data: z.infer<typeof resetPasswordSchema>) => {
       const user = await getUserByEmail(email);
       if (!user) {
          return { error: "User not found" };
+      }
+
+      const AccountProvider = await getAccountProviderById(user.id);
+
+      if (AccountProvider) {
+         return { error: "Provider account! Login using provider" };
       }
 
       const passwordtoken = await generateResetPasswordVerificationToken(email);

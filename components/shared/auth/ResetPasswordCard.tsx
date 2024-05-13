@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { resetPasswordSchema } from "@/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -75,6 +76,9 @@ export function ResetPasswordCard() {
                </Button>
             </form>
          </Form>
+         <Button className="self-start">
+            <Link href="/auth/login">Back to login</Link>
+         </Button>
       </>
    );
 }
