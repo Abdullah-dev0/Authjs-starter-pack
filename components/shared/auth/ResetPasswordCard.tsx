@@ -76,7 +76,7 @@ export function ResetPasswordCard() {
                </Button>
             </form>
          </Form>
-         <Button className="self-start">
+         <Button className="self-start" variant="ghost">
             <Link href="/auth/login">Back to login</Link>
          </Button>
       </>

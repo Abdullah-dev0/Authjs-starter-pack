@@ -33,7 +33,7 @@ export default auth((req) => {
       return Response.redirect(new URL("/auth/login", nextUrl));
    }
 
-   return null ;
+   return null;
 });
 
 export const config = {
