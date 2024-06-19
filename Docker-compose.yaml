@@ -1,0 +1,21 @@
+services:
+   mongodb:
+      image: mongo
+      container_name: Abdullahdb
+      ports:
+         - "27017:27017"
+      volumes:
+         - mongodb_data:/data/db
+
+   nextauth:
+      build: .
+      container_name: next-auth
+      depends_on:
+         - mongodb
+      ports:
+         - "3000:3000"
+      environment:
+         MONGO_URL: "mongodb://Abdullahdb:27017"
+
+volumes:
+   mongodb_data:
