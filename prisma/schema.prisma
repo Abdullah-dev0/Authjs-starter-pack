@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
+// please change your url in production 
   url      = env("mongodb://Abdullahdb:27017/next-auth")
 }
 
