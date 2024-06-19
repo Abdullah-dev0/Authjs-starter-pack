@@ -1,5 +1,4 @@
 "use client";
-
 import { verifyToken } from "@/actions/auth/verifyToken";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

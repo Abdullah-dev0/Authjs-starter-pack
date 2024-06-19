@@ -1,7 +1,12 @@
 import VerifyPassToken from "@/components/shared/auth/verifyPassToken";
+import { Suspense } from "react";
 
 const VerifyToken = () => {
-   return <VerifyPassToken />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyPassToken />
+    </Suspense>
+  );
 };
 
 export default VerifyToken;
