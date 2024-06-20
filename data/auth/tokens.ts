@@ -1,6 +1,6 @@
 import prisma from "@/lib/prismaClient";
 
-//We saparete the logic of getting the verification token by email and by token into two functions because they will be used most fell free to use them  .
+//We saparete the logic of getting the verification token by email and by token into two functions because they will be used most fell free to use them both  .
 
 export const getVerificationTokenByEmail = async (email: string) => {
    try {
