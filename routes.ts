@@ -4,7 +4,7 @@
 
 export const publicRouts = ["/", "/auth/new-verification","/auth/reset-password"];
 
-//private routes that are accessible only to authenticated users or are disolayed if user is not authenticated
+//private routes that are accessible only to authenticated users or are displayed if user is not authenticated
 
 export const privateRouts = [
    "/auth/login",
