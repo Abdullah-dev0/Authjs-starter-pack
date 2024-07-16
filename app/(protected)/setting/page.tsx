@@ -1,7 +1,7 @@
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
 
-const Setting = async () => {
+async function Setting() {
 	const session = await auth();
 
 	const handleSignOut = async () => {
@@ -22,6 +22,6 @@ const Setting = async () => {
 			</div>
 		</div>
 	);
-};
+}
 
 export default Setting;
