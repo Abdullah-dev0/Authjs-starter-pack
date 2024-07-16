@@ -13,7 +13,9 @@ async function Setting() {
 
 	return (
 		<div>
-			{JSON.stringify(session)}
+			<div>
+				<pre>{JSON.stringify(session, null, 2)}</pre>
+			</div>
 
 			<div>
 				<form action={handleSignOut}>
